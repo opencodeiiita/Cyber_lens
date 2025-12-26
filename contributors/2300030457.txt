@@ -1,0 +1,15 @@
+Name: N Satish
+College: K L University
+Branch: CSE (Data Engineering)
+Year: 3rd Year
+
+Interests:
+- Data Engineering
+- Cloud Computing
+- Cybersecurity
+- Open Source
+
+About Me:
+I am a Computer Science student interested in data engineering, cloud platforms,
+and cybersecurity. I am contributing to Cyber Lens as part of OpenCode to gain
+hands-on experience in threat intelligence and open-source collaboration.
