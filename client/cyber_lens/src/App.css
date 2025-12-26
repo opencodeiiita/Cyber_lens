@@ -1,0 +1,75 @@
+/* Basic Layout Utilities mimicking Tailwind for minimal setup */
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.min-h-screen {
+  min-height: 100vh;
+}
+.flex-grow {
+  flex-grow: 1;
+}
+.container {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.items-center {
+  align-items: center;
+}
+
+/* Spacing and Colors */
+.p-4 {
+  padding: 1rem;
+}
+.mt-auto {
+  margin-top: auto;
+}
+.bg-gray-800 {
+  background-color: #1f2937;
+}
+.bg-gray-900 {
+  background-color: #111827;
+}
+.text-white {
+  color: white;
+}
+.text-xl {
+  font-size: 1.25rem;
+}
+.font-bold {
+  font-weight: 700;
+}
+.space-x-4 > * + * {
+  margin-left: 1rem;
+}
+.text-2xl {
+  font-size: 1.5rem;
+}
+
+/* Reset */
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+a:hover {
+  opacity: 0.8;
+}
