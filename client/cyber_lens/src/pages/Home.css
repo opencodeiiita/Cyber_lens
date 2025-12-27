@@ -1,0 +1,101 @@
+.home-container 
+{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 50px;          
+    flex-direction: column;
+    gap: 50px;
+}
+
+.home-container h2 
+{
+    font-size: 50px;
+    color: white;
+}
+
+.select-container 
+{
+    position: relative;
+}
+
+.select-container select 
+{
+    appearance: none;          
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 20px 60px 20px 40px; 
+    font-size: 25px;
+    border-radius: 50px;
+    border: none;
+    outline: none;
+    background: rgba(255, 255, 255, 0.95);
+    color: #020617;
+    box-shadow: 0 4px 12px rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+.select-container::after 
+{
+    content: "▾";   
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 26px;
+    color: #27003e;
+    pointer-events: none;
+}
+
+
+
+.search-container 
+{
+    display: flex;
+    gap: 12px;
+    padding: 20px 24px;
+}
+
+.search-container input
+{
+    padding: 20px 40px;
+    font-size: 25px;
+    border-radius: 50px;
+    border: none;
+    outline: none;
+    background: rgba(255, 255, 255, 0.95);
+    color: #020617;
+    box-shadow: 0 4px 12px rgb(0, 0, 0);
+}
+
+.search-container select {
+    padding: 20px 40px;
+    font-size: 25px;
+    border-radius: 50px;
+    border: none;
+    outline: none;
+    background: rgba(255, 255, 255, 0.95);
+    color: #020617;
+    box-shadow: 0 4px 12px rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+
+.search-container button 
+{
+    padding: 20px 40px;
+    font-size: 20px;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    background: linear-gradient(135deg,#dad1fa,#6f47e4);
+    color: #27003e;
+}
+
+.search-container button:hover 
+{
+    background: linear-gradient(135deg,#6f47e4,#dad1fa);
+}
