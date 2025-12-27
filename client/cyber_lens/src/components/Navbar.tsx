@@ -1,6 +1,7 @@
 import { Shield } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
+
 const linkBase =
   "inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500";
 
@@ -11,8 +12,9 @@ const Navbar = () => {
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
           <div className="flex items-center gap-3">
 
-            <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-900 border border-zinc-800 text-white shadow-inner">
-              <Shield className="h-5 w-5" />
+            <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900 border border-zinc-800 text-white shadow-inner">
+
+              <img src="public\cyberlens_bg_removed_logo.png" alt="" />
             </div>
             <div className="leading-tight">
               <div className="text-sm font-bold text-white">Cyber Lens</div>

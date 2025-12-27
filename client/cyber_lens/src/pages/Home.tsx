@@ -17,14 +17,18 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4 bg-black text-zinc-300">
-      <div className="w-full max-w-2xl my-12">
+      <div className="w-full max-w-2xl my-3">
         <div className="text-center mb-12">
           <div className="flex items-center justify-center mb-4">
-            <Shield className="w-16 h-16 text-white" />
+            <img
+              src="public\cyberlens_bg_removed_logo.png"
+              alt=""
+              className="w-50 h-50"
+            />
           </div>
-          <h1 className="text-5xl font-bold mb-3 text-white tracking-tight">
-            Cyber Lens
-          </h1>
+          <div className="flex justify-center items-center mb-5">
+            <img src="public\cyberlens banner.png" alt="" className="w-100" />
+          </div>
           <p className="text-lg text-zinc-500">
             Threat Intelligence & IOC Analysis Platform
           </p>
