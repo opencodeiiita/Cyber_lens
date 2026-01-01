@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS public.ioc_query (
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
+-- Add comments to the table
 COMMENT ON TABLE public.ioc_query IS 'Stores IOC (Indicator of Compromise) queries for threat intelligence';
 COMMENT ON COLUMN public.ioc_query.id IS 'Unique identifier (UUID)';
 COMMENT ON COLUMN public.ioc_query.ioc IS 'The IOC value: IP address, domain name, URL, or file hash';
