@@ -75,3 +75,4 @@ final_score = (score1weight1 + score2weight2 + ...) / total_weights
 - Model is **extensible**: new providers can be added with assigned weights.  
 - Thresholds and weights can be adjusted based on provider reliability and historical accuracy.  
 - Focus is on **clarity, auditability, and logical consistency**.
+<!-- Tiny change to trigger PR -->
