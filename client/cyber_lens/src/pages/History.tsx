@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { httpJson } from "../utils/httpClient";
+
 type Row = {
   ioc: string;
   verdict: "Malicious" | "Clean" | "Suspicious" | "";
@@ -5,27 +8,44 @@ type Row = {
   note: string;
 };
 
+interface HistoryItem {
+  id: string;
+  owner_type: string;
+  owner_id: string;
+  ioc_type: string;
+  ioc_value: string;
+  verdict: string;
+  created_at: string;
+}
+
 export default function History() {
-  const dummyData: Row[] = [
-    {
-      ioc: "8.8.8.8",
-      verdict: "Malicious",
-      timestamp: "2025-01-12 14:32",
-      note: "Known public DNS abuse",
-    },
-    {
-      ioc: "example.com",
-      verdict: "Clean",
-      timestamp: "2025-01-11 10:05",
-      note: "No recent issues",
-    },
-    {
-      ioc: "http://suspicious.example",
-      verdict: "Suspicious",
-      timestamp: "2025-01-10 08:14",
-      note: "Low-confidence detection",
-    },
-  ];
+  const [data, setData] = useState<Row[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    httpJson<HistoryItem[]>("/history?limit=50")
+      .then((items) => {
+        const rows: Row[] = items.map((item) => {
+          let verdict: Row["verdict"] = "";
+          const v = item.verdict?.toLowerCase() || "";
+          if (v === "malicious") verdict = "Malicious";
+          else if (v === "benign") verdict = "Clean";
+          else if (v === "suspicious") verdict = "Suspicious";
+
+          return {
+            ioc: item.ioc_value,
+            verdict,
+            timestamp: new Date(item.created_at).toLocaleString(),
+            note: item.ioc_type,
+          };
+        });
+        setData(rows);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch history:", err);
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   const badgeClass = (v: string) =>
     v === "Malicious"
@@ -64,105 +84,78 @@ export default function History() {
           </div>
         </div>
 
-        {/* Mobile cards */}
-        <div className="space-y-4 md:hidden">
-          {dummyData.map((row, idx) => (
-            <div
-              key={idx}
-              className="border border-neutral-800 bg-neutral-900 p-4"
-            >
-              <div className="flex justify-between items-start gap-3">
-                <div className="font-mono text-sm text-neutral-100 truncate">
-                  {row.ioc}
-                </div>
-                <span
-                  className={`px-2 py-0.5 text-xs font-medium ring-1 ${badgeClass(
-                    row.verdict
-                  )}`}
+        {loading ? (
+          <div className="text-center text-neutral-500">Loading history...</div>
+        ) : (
+          <>
+            {/* Mobile cards */}
+            <div className="space-y-4 md:hidden">
+              {data.map((row, idx) => (
+                <div
+                  key={idx}
+                  className="border border-neutral-800 bg-neutral-900 p-4"
                 >
-                  {row.verdict || "Unknown"}
-                </span>
-              </div>
+                  <div className="flex justify-between items-start gap-3">
+                    <div className="font-mono text-sm text-neutral-100 truncate">
+                      {row.ioc}
+                    </div>
+                    <span
+                      className={`px-2 py-0.5 text-xs font-medium ring-1 ${badgeClass(
+                        row.verdict
+                      )}`}
+                    >
+                      {row.verdict || "Unknown"}
+                    </span>
+                  </div>
 
-              <div className="mt-2 text-sm text-neutral-300">{row.note}</div>
+                  <div className="mt-2 text-sm text-neutral-300">{row.note}</div>
 
-              <div className="mt-3 text-xs text-neutral-400">
-                {row.timestamp}
+                  <div className="mt-3 text-xs text-neutral-400">
+                    {row.timestamp}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop Table */}
+            <div className="hidden md:block">
+              <div className="overflow-x-auto border border-neutral-700 bg-neutral-950">
+                <table className="min-w-full border-collapse text-sm">
+                  <thead className="bg-neutral-900 text-neutral-300">
+                    <tr>
+                      <th className="px-4 py-3 text-left font-medium">IOC</th>
+                      <th className="px-4 py-3 text-left font-medium">Verdict</th>
+                      <th className="px-4 py-3 text-left font-medium">Type</th>
+                      <th className="px-4 py-3 text-right font-medium">Time</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-neutral-800">
+                    {data.map((row, idx) => (
+                      <tr key={idx} className="hover:bg-neutral-900/50">
+                        <td className="px-4 py-3 font-mono text-neutral-200">
+                          {row.ioc}
+                        </td>
+                        <td className="px-4 py-3">
+                          <span
+                            className={`px-2 py-0.5 text-xs font-medium ring-1 ${badgeClass(
+                              row.verdict
+                            )}`}
+                          >
+                            {row.verdict || "Unknown"}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-neutral-400">{row.note}</td>
+                        <td className="px-4 py-3 text-right text-neutral-500">
+                          {row.timestamp}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
-          ))}
-        </div>
-
-        {/* Desktop Table */}
-        <div className="hidden md:block">
-          <div className="overflow-x-auto border border-neutral-700 bg-neutral-950">
-            <table className="min-w-full border-collapse text-sm">
-              <thead className="bg-neutral-900 text-neutral-300">
-                <tr>
-                  <th className="border border-neutral-700 px-4 py-3 text-left font-medium">
-                    IOC
-                  </th>
-                  <th className="border border-neutral-700 px-4 py-3 text-left font-medium">
-                    Verdict
-                  </th>
-                  <th className="border border-neutral-700 px-4 py-3 text-left font-medium">
-                    Timestamp
-                  </th>
-                  <th className="border border-neutral-700 px-4 py-3 text-left font-medium">
-                    Note
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {dummyData.map((row, idx) => (
-                  <tr
-                    key={idx}
-                    className="hover:bg-neutral-900 transition-colors"
-                  >
-                    <td className="border border-neutral-800 px-4 py-3 font-mono text-neutral-100 truncate max-w-lg">
-                      {row.ioc || "—"}
-                    </td>
-
-                    <td className="border border-neutral-800 px-4 py-3">
-                      <span
-                        className={`inline-flex items-center gap-2 px-2.5 py-1 text-xs font-medium ring-1 ${badgeClass(
-                          row.verdict
-                        )}`}
-                      >
-                        <span
-                          className={`h-2 w-2 rounded-full ${
-                            row.verdict === "Malicious"
-                              ? "bg-red-400"
-                              : row.verdict === "Clean"
-                              ? "bg-emerald-400"
-                              : row.verdict === "Suspicious"
-                              ? "bg-amber-400"
-                              : "bg-neutral-400"
-                          }`}
-                        />
-                        {row.verdict || "Unknown"}
-                      </span>
-                    </td>
-
-                    <td className="border border-neutral-800 px-4 py-3 text-neutral-400 whitespace-nowrap">
-                      {row.timestamp || "—"}
-                    </td>
-
-                    <td className="border border-neutral-800 px-4 py-3 text-neutral-300 truncate max-w-xs">
-                      {row.note || "—"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <div className="mt-3 text-xs text-neutral-500">
-            Showing {dummyData.length} recent scans — optimized for analyst
-            review.
-          </div>
-        </div>
+          </>
+        )}
       </div>
     </div>
   );

@@ -8,7 +8,6 @@ import type {
   ThreatIntelProvider,
 } from "../constants/provider.interface";
 import type { OwnerContext } from "../constants/owner";
-import { logIocHistory } from "./iocHistoryService";
 
 export interface OrchestratedResponse<TResponse = unknown> {
   ioc: string;
@@ -83,15 +82,6 @@ export async function orchestrateThreatIntelligence<
   );
 
   const executionTimeMs = Date.now() - startTime;
-
-  // Fire-and-forget history logging (NON-BLOCKING)
-  void logIocHistory({
-    owner,
-    iocType: detected.type,
-    iocValue: ioc,
-  }).catch(() => {
-    // intentionally ignored
-  });
 
   // Return lookup response normally
   return {

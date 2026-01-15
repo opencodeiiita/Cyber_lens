@@ -21,6 +21,7 @@ export async function queryHistory({
       owner_id,
       ioc_type,
       ioc_value,
+      verdict,
       created_at
     FROM ioc_history
     WHERE owner_type = $1

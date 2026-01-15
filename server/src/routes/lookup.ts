@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { orchestrateThreatIntelligence } from "../services/iocOrchestrator";
 import { computeScore } from "../services/scoringEngine";
+import { logIocHistory } from "../services/iocHistoryService";
 import { ALL_PROVIDERS } from "../services/providerExecutor";
 import type { IocType } from "../constants/provider.interface";
 
@@ -30,6 +31,17 @@ router.post("/", async (req, res) => {
     const scoringResult = computeScore({
       providers: orchestratedResult.providers,
     });
+
+    if (orchestratedResult.detectedType) {
+      void logIocHistory({
+        owner,
+        iocType: orchestratedResult.detectedType,
+        iocValue: ioc,
+        verdict: scoringResult.verdict,
+      }).catch(() => {
+        // intentionally ignored
+      });
+    }
 
     const response = {
       ioc: orchestratedResult.ioc,
