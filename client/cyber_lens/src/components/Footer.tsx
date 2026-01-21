@@ -1,57 +1,63 @@
+// Footer.tsx
+import React from "react";
+
+const socialLinks = [
+  {
+    label: "GitHub",
+    href: "https://github.com/opencodeiiita",
+    icon: "fa-github",
+    color: "text-[#181717]",
+  },
+  {
+    label: "X",
+    href: "https://x.com",
+    icon: "fa-x-twitter",
+    color: "text-black",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://linkedin.com",
+    icon: "fa-linkedin",
+    color: "text-[#0A66C2]",
+  },
+  {
+    label: "Instagram",
+    href: "https://instagram.com",
+    icon: "fa-instagram",
+    color: "text-[#E1306C]",
+  },
+  {
+    label: "YouTube",
+    href: "https://youtube.com",
+    icon: "fa-youtube",
+    color: "text-[#FF0000]",
+  },
+];
+
 const Footer = () => {
   return (
     <footer className="bg-slate-950 border-t border-slate-800">
       <div className="w-full px-4 py-10">
         {/* Social Icons */}
         <div className="flex justify-center gap-6 mb-6">
-          {/* GitHub */}
-          <a
-            aria-label="GitHub"
-            className="h-10 w-10 flex items-center justify-center rounded-full border border-slate-700 text-[#181717] bg-white cursor-pointer transition"
-          >
-            <i className="fa-brands fa-github text-lg" />
-          </a>
-
-          {/* X / Twitter */}
-          <a
-            aria-label="X"
-            className="h-10 w-10 flex items-center justify-center rounded-full border border-slate-700 text-black bg-white cursor-pointer transition"
-          >
-            <i className="fa-brands fa-x-twitter text-lg" />
-          </a>
-
-          {/* LinkedIn */}
-          <a
-            aria-label="LinkedIn"
-            className="h-10 w-10 flex items-center justify-center rounded-full border border-slate-700 text-[#0A66C2] bg-white cursor-pointer transition"
-          >
-            <i className="fa-brands fa-linkedin text-lg" />
-          </a>
-
-          {/* Instagram */}
-          <a
-            aria-label="Instagram"
-            className="h-10 w-10 flex items-center justify-center rounded-full border border-slate-700 text-[#E1306C] bg-white cursor-pointer transition"
-          >
-            <i className="fa-brands fa-instagram text-lg" />
-          </a>
-
-          {/* YouTube */}
-          <a
-            aria-label="YouTube"
-            className="h-10 w-10 flex items-center justify-center rounded-full border border-slate-700 text-[#FF0000] bg-white cursor-pointer transition"
-          >
-            <i className="fa-brands fa-youtube text-lg" />
-          </a>
+          {socialLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={link.label}
+              className={`h-10 w-10 flex items-center justify-center rounded-full border border-slate-700 bg-white ${link.color} text-xl transition hover:scale-110`}
+            >
+              <i className={`fa-brands ${link.icon}`} />
+            </a>
+          ))}
         </div>
 
-        {/* Divider */}
-        <div className="max-w-5xl mx-auto border-t border-slate-800 mb-4" />
-
-        {/* Copyright */}
-        <div className="text-center text-md text-slate-500 tracking-wide">
-          © 2025 Cyber Lens. All rights reserved.
-        </div>
+        {/* Footer Text */}
+        <p className="text-center text-slate-400 text-sm">
+          &copy; {new Date().getFullYear()} Cyber Lens. All rights reserved.
+        </p>
       </div>
     </footer>
   );
